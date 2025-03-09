@@ -9,7 +9,7 @@
   .hidden { display: none; }
   input[type="text"] { width: 80px; margin-bottom: 10px; }
   input[type="checkbox"], input[type="radio"] { margin-right: 5px; }
-  .door-image { width: 100px; cursor: pointer; margin: 5px; border: 2px solid transparent; }
+  .door-image { width: 150px; cursor: pointer; margin: 5px; border: 2px solid transparent; }
   .door-image:hover { border-color: #333; }
   #double-fields input[type="text"] { width: 80px; }
 </style>
@@ -50,7 +50,7 @@
       imgCanvas.height = img.height;
       imgContext.drawImage(img, 0, 0);
       const imgData = imgCanvas.toDataURL('image/png');
-      doc.addImage(imgData, 'PNG', 10, 10, 40, 40);
+      doc.addImage(imgData, 'PNG', 15, 15, 50, 50);
     }
     let text = `Criteria for Door ${door}\n`;
     const inputs = criteria.querySelectorAll('input');
