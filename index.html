@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Door Selection Form</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 20px; }
+  .hidden { display: none; }
+  input[type="text"] { width: 80px; margin-bottom: 10px; }
+  input[type="checkbox"], input[type="radio"] { margin-right: 5px; }
+  .door-image { width: 150px; cursor: pointer; margin: 5px; border: 2px solid transparent; }
+  .door-image:hover { border-color: #333; }
+  #double-fields input[type="text"] { width: 80px; }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+  function showCriteria(door) {
+    const criteriaSections = document.querySelectorAll('.criteria');
+    criteriaSections.forEach(section => section.classList.add('hidden'));
+    const selectedCriteria = document.getElementById(`criteria-${door}`);
+    if (selectedCriteria) {
+      selectedCriteria.classList.remove('hidden');
+    }
+  }
+
+  function toggleFields() {
+    const singleLock = document.getElementById('single-lock');
+    const doubleLock = document.getElementById('double-lock');
+    document.getElementById('single-fields').classList.toggle('hidden', !singleLock.checked);
+    document.getElementById('double-fields').classList.toggle('hidden', !doubleLock.checked);
+  }
+
+  function toggleMidrailFields() {
+    const midrailFields = document.getElementById('midrail-height-field');
+    const midrailOptions = document.querySelectorAll('input[name="midrail"]');
+    const isSelected = Array.from(midrailOptions).some(option => option.checked);
+    midrailFields.classList.toggle('hidden', !isSelected);
+  }
+
+  function downloadPDF(door) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    const criteria = document.getElementById(`criteria-${door}`);
+    const img = criteria.querySelector('img');
+    if (img && img.src) {
+      const imgCanvas = document.createElement('canvas');
+      const imgContext = imgCanvas.getContext('2d');
+      imgCanvas.width = img.width;
+      imgCanvas.height = img.height;
+      imgContext.drawImage(img, 0, 0);
+      const imgData = imgCanvas.toDataURL('image/png');
+      doc.addImage(imgData, 'PNG', 10, 10, 60, 60);
+    }
+    let text = `Criteria for Door ${door}\n`;
+    const inputs = criteria.querySelectorAll('input');
+    inputs.forEach(input => {
+      if ((input.type === 'checkbox' || input.type === 'radio') && input.checked) {
+        text += `${input.nextSibling.textContent.trim()}\n`;
+      } else if (input.type === 'text' && input.value) {
+        text += `${input.previousSibling.textContent.trim()}: ${input.value}\n`;
+      }
+    });
+    doc.text(text, 10, 80);
+    doc.save(`Door_${door}_Criteria.pdf`);
+  }
+</script>
+</head>
+<body>
+<h2>Select a Door</h2>
+<div>
+  <img src="door1.png" class="door-image" onclick="showCriteria(1)">
+</div>
+<div id="criteria-1" class="criteria hidden">
+  <br>
+<img src="door1.png" alt="Door1" style="width:200px; margin-bottom:10px;"><br>
+  <label>Slampost (if required): <input type="text"> mm</label><br>
+  <input type="checkbox"> 45mm x 45mm<br>
+  <input type="checkbox"> 50mm x 50mm<br>
+  <h4>Locks</h4>
+  <input type="checkbox" id="single-lock" onclick="toggleFields()"> Single<br>
+  <div id="single-fields" class="hidden">
+    <label>Measurement to bottom of cut-out: <input type="text"></label><br>
+    <label>Measurement to top of cut-out: <input type="text"></label><br>
+  </div>
+  <input type="checkbox" id="double-lock" onclick="toggleFields()"> Double<br>
+  <div id="double-fields" class="hidden">
+    <h4>Lock 1</h4>
+    <label>Measurement to top of cut-out: <input type="text"></label><br>
+    <label>Measurement to bottom of cut-out: <input type="text"></label><br>
+    <h4>Lock 2</h4>
+    <label>Measurement to top of cut-out: <input type="text"></label><br>
+    <label>Measurement to bottom of cut-out: <input type="text"></label><br>
+  </div>
+  <h4>Door Stiles</h4>
+  <input type="checkbox"> 55mm<br>
+  <input type="checkbox"> 100mm<br>
+  <h4>Rails</h4>
+  <input type="checkbox"> Top - 100mm<br>
+  <input type="checkbox"> Bottom - 100mm<br>
+  <h4>Midrail (if required)</h4>
+  <input type="radio" name="midrail" value="200mm" onclick="toggleMidrailFields()"> 200mm<br>
+  <input type="radio" name="midrail" value="165mm" onclick="toggleMidrailFields()"> 165mm<br>
+  <div id="midrail-height-field" class="hidden">
+    <label>Mid-rail height: <input type="text"> mm</label><br>
+  </div>
+  <h4>Glazing</h4>
+  <input type="radio" name="glazing"> 6.8mm<br>
+  <input type="radio" name="glazing"> 8.8mm<br>
+  <input type="radio" name="glazing"> 10.8mm<br>
+  <input type="radio" name="glazing"> DGU 24mm<br>
+  <input type="radio" name="glazing"> Other <input type="text"><br>
+  <label>PPC - if not RAL7043 Satin: <input type="text"></label>
+  <button onclick="downloadPDF(1)">Download PDF</button>
+</div>
+</body>
+</html>
