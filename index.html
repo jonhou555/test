@@ -50,7 +50,7 @@
       imgCanvas.height = img.height;
       imgContext.drawImage(img, 0, 0);
       const imgData = imgCanvas.toDataURL('image/png');
-      doc.addImage(imgData, 'PNG', 10, 10, 75, 75);
+      doc.addImage(imgData, 'PNG', 10, 10, 60, 60);
     }
     let text = `Criteria for Door ${door}\n`;
     const inputs = criteria.querySelectorAll('input');
@@ -61,7 +61,7 @@
         text += `${input.previousSibling.textContent.trim()}: ${input.value}\n`;
       }
     });
-    doc.text(text, 10, 120);
+    doc.text(text, 10, 80);
     doc.save(`Door_${door}_Criteria.pdf`);
   }
 </script>
@@ -92,6 +92,25 @@
     <label>Measurement to top of cut-out: <input type="text"></label><br>
     <label>Measurement to bottom of cut-out: <input type="text"></label><br>
   </div>
+  <h4>Door Stiles</h4>
+  <input type="checkbox"> 55mm<br>
+  <input type="checkbox"> 100mm<br>
+  <h4>Rails</h4>
+  <input type="checkbox"> Top - 100mm<br>
+  <input type="checkbox"> Bottom - 100mm<br>
+  <h4>Midrail (if required)</h4>
+  <input type="radio" name="midrail" value="200mm" onclick="toggleMidrailFields()"> 200mm<br>
+  <input type="radio" name="midrail" value="165mm" onclick="toggleMidrailFields()"> 165mm<br>
+  <div id="midrail-height-field" class="hidden">
+    <label>Mid-rail height: <input type="text"> mm</label><br>
+  </div>
+  <h4>Glazing</h4>
+  <input type="radio" name="glazing"> 6.8mm<br>
+  <input type="radio" name="glazing"> 8.8mm<br>
+  <input type="radio" name="glazing"> 10.8mm<br>
+  <input type="radio" name="glazing"> DGU 24mm<br>
+  <input type="radio" name="glazing"> Other <input type="text"><br>
+  <label>PPC - if not RAL7043 Satin: <input type="text"></label>
   <button onclick="downloadPDF(1)">Download PDF</button>
 </div>
 </body>
