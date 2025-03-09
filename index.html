@@ -62,7 +62,7 @@
         text += `${input.previousSibling.textContent.trim()}: ${input.value}\n`;
       }
     });
-    doc.text(text, 10, 90);
+    doc.text(text, 10, 80); // Adjust text position to add more space below the image
     doc.save(`Door_${door}_Criteria.pdf`);
   }
 </script>
