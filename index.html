@@ -6,7 +6,7 @@
 <title>Door Selection Form</title>
 <link rel="stylesheet" href="styles.css">
 <style>
-  body { font-family: Arial, sans-serif; margin: 20px; }
+  body { font-family: Arial, sans-serif; margin: 10px; }
   .hidden { display: none; }
   input[type="text"] { width: 80px; margin-bottom: 10px; }
   input[type="checkbox"], input[type="radio"] { margin-right: 5px; }
@@ -51,7 +51,7 @@
       imgCanvas.height = img.height;
       imgContext.drawImage(img, 0, 0);
       const imgData = imgCanvas.toDataURL('image/png');
-      doc.addImage(imgData, 'PNG', 15, 15, 111, 170);
+      doc.addImage(imgData, 'PNG', 10, 10, 90, 140);
     }
     let text = `Criteria for Door ${door}\n`;
     const inputs = criteria.querySelectorAll('input');
