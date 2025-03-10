@@ -10,9 +10,27 @@
   .hidden { display: none; }
   input[type="text"] { width: 80px; margin-bottom: 10px; }
   input[type="checkbox"], input[type="radio"] { margin-right: 5px; }
-  .door-image { width: 150px; cursor: pointer; margin: 5px; border: 2px solid transparent; }
+  .door-image { width: 150px; cursor: pointer; margin: 5px; border: 2px solid transparent; position: relative; }
   .door-image:hover { border-color: #333; }
   #double-fields input[type="text"] { width: 80px; }
+  .tooltip {
+    visibility: hidden;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-size: 12px;
+  }
+  .door-image:hover .tooltip {
+    visibility: visible;
+  }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
@@ -69,7 +87,7 @@
 </script>
 </head>
 <body>
-<h2>Select Required Package</h2>
+<h2>Right Hand Sliding Door</h2>
 <div>
   <img src="door1.png" class="door-image" onclick="showCriteria(1)" title="Right Hand Sliding Leaf Only">
   <img src="door1.png" class="door-image" onclick="showCriteria(2)">
