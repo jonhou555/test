@@ -6,7 +6,7 @@
 <title>Door Selection Form</title>
 <link rel="stylesheet" href="styles.css">
 <style>
-  body { font-family: Arial, sans-serif; margin: 10px; }
+  body { font-family: Arial, sans-serif; margin: 20px; }
   .hidden { display: none; }
   input[type="text"] { width: 80px; margin-bottom: 10px; }
   input[type="checkbox"], input[type="radio"] { margin-right: 5px; }
@@ -42,6 +42,7 @@
   function downloadPDF(door) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
+    doc.setFontSize(7);  // Halve the font size here
     const criteria = document.getElementById(`criteria-${door}`);
     const img = criteria.querySelector('img');
     if (img && img.src) {
@@ -51,7 +52,7 @@
       imgCanvas.height = img.height;
       imgContext.drawImage(img, 0, 0);
       const imgData = imgCanvas.toDataURL('image/png');
-      doc.addImage(imgData, 'PNG', 10, 10, 90, 140);
+      doc.addImage(imgData, 'PNG', 10, 10, 80, 150);
     }
     let text = `Criteria for Door ${door}\n`;
     const inputs = criteria.querySelectorAll('input');
