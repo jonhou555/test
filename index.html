@@ -51,9 +51,9 @@
       imgCanvas.height = img.height;
       imgContext.drawImage(img, 0, 0);
       const imgData = imgCanvas.toDataURL('image/png');
-      doc.addImage(imgData, 'PNG', 15, 15, 111, 170);
+      doc.addImage(imgData, 'PNG', 10, 10, 90, 120);
     }
-    let text = `Criteria for Door ${door}\n`;
+    let text = ``;
     const inputs = criteria.querySelectorAll('input');
     inputs.forEach(input => {
       if ((input.type === 'checkbox' || input.type === 'radio') && input.checked) {
