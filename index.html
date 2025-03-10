@@ -60,28 +60,19 @@
   function downloadPDF(door) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
-    doc.setFontSize(7);  // Halve the font size here
+    doc.setFontSize(7);
     const criteria = document.getElementById(`criteria-${door}`);
-    const img = criteria.querySelector('img');
-    if (img && img.src) {
-      const imgCanvas = document.createElement('canvas');
-      const imgContext = imgCanvas.getContext('2d');
-      imgCanvas.width = img.width;
-      imgCanvas.height = img.height;
-      imgContext.drawImage(img, 0, 0);
-      const imgData = imgCanvas.toDataURL('image/png');
-      doc.addImage(imgData, 'PNG', 15, 15, 70, 150);
-    }
-    let text = `Criteria for ${door}\n`;
+    let text = `Criteria for Door ${door}\n`;
     const inputs = criteria.querySelectorAll('input');
     inputs.forEach(input => {
       if ((input.type === 'checkbox' || input.type === 'radio') && input.checked) {
         text += `${input.nextSibling.textContent.trim()}\n`;
       } else if (input.type === 'text' && input.value) {
-        text += `${input.previousSibling.textContent.trim()}: ${input.value}\n`;
+        const label = input.previousElementSibling ? input.previousElementSibling.textContent.trim() : "";
+        text += `${label}: ${input.value}\n`;
       }
     });
-    doc.text(text, 10, 125);
+    doc.text(text, 10, 20);
     doc.save(`Door_${door}_Criteria.pdf`);
   }
 </script>
@@ -143,4 +134,3 @@
 </div>
 </body>
 </html>
-
